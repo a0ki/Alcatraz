@@ -8,6 +8,10 @@
 #include <algorithm>
 #include <unordered_map>
 #include <asmjit/asmjit.h>
+
+#pragma comment (lib, "Zydis.lib")
+#pragma comment (lib, "asmjit.lib")
+#pragma comment (lib, "Zycore.lib")
 using namespace asmjit;
 
 class obfuscator {

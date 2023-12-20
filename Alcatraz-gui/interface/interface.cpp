@@ -25,7 +25,7 @@ void inter::run_obfuscator(std::vector<pdbparser::sym_func> funcs, bool obfuscat
 	auto extension = std::filesystem::path(binary_path).extension();
 
 	std::remove((std::filesystem::path(binary_path).replace_extension().string() + ".obf" + extension.string()).c_str());
-	auto new_section = pe.create_section(".0Dev", 10000000, IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_READ | IMAGE_SCN_CNT_CODE);
+	auto new_section = pe.create_section(".cdata", 10000000, IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_READ | IMAGE_SCN_CNT_CODE);
 
 	obfuscator obf(&pe);
 	obf.create_functions(funcs);

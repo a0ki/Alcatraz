@@ -172,23 +172,27 @@ void gui::render_interface() {
 			else {
 
 				auto func = std::find_if(funcs.begin(), funcs.end(), [&](const pdbparser::sym_func infunc) { return infunc.id == selected_func; });
-				ImGui::Text("Name : %s", func->name.c_str());
-				ImGui::Text("Address : %x", func->offset);
-				ImGui::Text("Size : %i bytes", func->size);
+				if (func != funcs.end())
+				{
+					ImGui::Text("Name : %s", func->name.c_str());
+					ImGui::Text("Address : %x", func->offset);
+					ImGui::Text("Size : %i bytes", func->size);
 
-				ImGui::Checkbox("Control flow flattening", &func->ctfflattening);
-				ImGui::Checkbox("Immediate MOV obfuscation", &func->movobf);
-				ImGui::Checkbox("Mutate", &func->mutateobf);
-				ImGui::Checkbox("LEA obfuscation", &func->leaobf);
-				ImGui::Checkbox("Anti disassembly", &func->antidisassembly);
+					ImGui::Checkbox("Control flow flattening", &func->ctfflattening);
+					ImGui::Checkbox("Immediate MOV obfuscation", &func->movobf);
+					ImGui::Checkbox("Mutate", &func->mutateobf);
+					ImGui::Checkbox("LEA obfuscation", &func->leaobf);
+					ImGui::Checkbox("Anti disassembly", &func->antidisassembly);
 
-				if (ImGui::Button("Add to list")) {
+					if (ImGui::Button("Add to list")) {
 
-					if (std::find_if(funcs_to_obfuscate.begin(), funcs_to_obfuscate.end(), [&](const pdbparser::sym_func infunc) {return infunc.id == func->id; }) == funcs_to_obfuscate.end()) {
-						funcs_to_obfuscate.push_back(*func);
-						funcs.erase(funcs.begin() + selected_func);
+						if (std::find_if(funcs_to_obfuscate.begin(), funcs_to_obfuscate.end(), [&](const pdbparser::sym_func infunc) {return infunc.id == func->id; }) == funcs_to_obfuscate.end()) {
+							funcs_to_obfuscate.push_back(*func);
+							funcs.erase(funcs.begin() + selected_func);
+						}
 					}
 				}
+				
 			}
 			
 			ImGui::SetCursorPosY(700);
